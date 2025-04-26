@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import React from 'react'
+import ReactDom from 'react-dom'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
@@ -21,7 +26,7 @@ function App() {
 
     setLoading(true);
 
-    const prompt = `Generate a ${style} caption for ${platform} about: ${context}`;
+    const prompt = `Generate a caption in a ${style} way for the platform ${platform} the topic is ${context} Only write one caption. Do not write anything other than the caption. The caption should be not be too small.`;
 
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -108,7 +113,7 @@ function App() {
             <p className="text-sm text-gray-500 font-medium mb-2">
               Topic: {c.context}
             </p>
-            <p className="text-gray-800 whitespace-pre-line">{c.text}</p>
+            <p className="text-gray-800 whitespace-pre-line"><ReactMarkdown>{c.text}</ReactMarkdown></p>
           </div>
         ))}
       </div>
